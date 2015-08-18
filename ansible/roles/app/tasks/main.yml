@@ -1,0 +1,16 @@
+---
+# application tasks to be customized and to run after the main provision
+- name: "Install node packages"
+  shell: cd /vagrant/web && npm install
+
+- name: "Install forever (to run Node.js app)."
+  npm: name=forever global=yes state=latest
+
+- name: "Check list of Node.js apps running."
+  command: forever list
+  register: forever_list
+  changed_when: false
+
+- name: "Start example Node.js app."
+  command: forever start /vagrant/web/js/app.js
+  when: "forever_list.stdout.find('/vagrant/web/js/app.js') == -1"

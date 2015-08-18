@@ -1,0 +1,2 @@
+- name: Install Browserify
+  shell: npm install -g browserify
